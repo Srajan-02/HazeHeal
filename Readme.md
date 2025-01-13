@@ -1,6 +1,7 @@
 # HazeHeal: Advanced Image Dehazing Model
 
-![HazeHeal Demo](samples/epoch_1.png)
+![project4](https://github.com/user-attachments/assets/cac61cb5-91a2-4228-9e09-cce4b7eb0299)
+
 
 HazeHeal is a state-of-the-art GAN-based image dehazing model implemented in TensorFlow 2.x. It effectively removes haze from images while preserving the original image details and colors.
 
@@ -9,7 +10,6 @@ HazeHeal is a state-of-the-art GAN-based image dehazing model implemented in Ten
 The model consists of two main networks:
 
 ### Generator
-![Generator Architecture](generator_model.png)
 
 The generator network features:
 - Instance Normalization layers for better style handling
@@ -19,7 +19,6 @@ The generator network features:
 - Spectral normalization for training stability
 
 ### Discriminator
-![Discriminator Architecture](discriminator_model.png)
 
 The discriminator network includes:
 - Convolutional layers with spectral normalization
@@ -123,8 +122,12 @@ The model achieves optimal dehazing results after approximately 2500 epochs, wit
 - Discriminator Loss: 0.893
 
 
-```
+# Results
+Image after completion 10 epoch:
+![epoch_10](https://github.com/user-attachments/assets/177e34f7-7860-42c8-8370-0453ae0e7757)
 
-## License
+Image after completion of 5000 epoch:
+![epoch_5000](https://github.com/user-attachments/assets/85864776-e4b0-4ed6-985c-96e52489adc3)
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+
+
