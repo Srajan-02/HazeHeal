@@ -52,12 +52,12 @@ logging
 
 ```
 HazeHeal/
-├── checkpoints/          # Model checkpoints
-├── samples/             # Generated sample images
-├── generator_model.png  # Generator architecture diagram
-├── discriminator_model.png # Discriminator architecture diagram
-├── main.py             # Main training script
-└── README.md           # This file
+├── checkpoints/         
+├── samples/             
+├── generator_model.png  
+├── discriminator_model.png 
+├── HazeHeal.ipynb             
+└── README.md           
 ```
 
 ## Usage
@@ -81,8 +81,7 @@ IMAGE_SIZE = (256, 256)
 BATCH_SIZE = 4
 NUM_EPOCHS = 5000
 
-# Run training
-python main.py
+
 ```
 
 ### Model Components
@@ -119,23 +118,11 @@ Sample results showing hazy input, dehazed output, and ground truth:
 
 ## Model Performance
 
-The model achieves optimal dehazing results after approximately 200-300 epochs, with:
-- Generator Loss: ~1.5-2.0
-- Discriminator Loss: ~0.5-0.8
+The model achieves optimal dehazing results after approximately 2500 epochs, with:
+- Generator Loss: 2.7550
+- Discriminator Loss: 0.893
 
-## Citation
 
-If you use HazeHeal in your research, please cite:
-
-```
-@misc{hazeheal2024,
-  author = {Your Name},
-  title = {HazeHeal: Advanced Image Dehazing Using GANs},
-  year = {2024},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/yourusername/hazeheal}}
-}
 ```
 
 ## License
