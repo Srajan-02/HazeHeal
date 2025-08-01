@@ -90,7 +90,7 @@ HAZY_DIR = '/path/to/hazy/images'
 GT_DIR = '/path/to/ground/truth/images'
 IMAGE_SIZE = (256, 256)
 BATCH_SIZE = 4
-NUM_EPOCHS = 5000
+NUM_EPOCHS = 200
 
 
 ```
