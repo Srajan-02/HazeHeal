@@ -12,29 +12,41 @@ The model consists of two main networks:
 ### Generator
 
 The generator network features:
-- Instance Normalization layers for better style handling
-- Residual blocks for preserving image details
-- Mish activation function for improved performance
-- Encoder-decoder architecture with skip connections
-- Spectral normalization for training stability
+- **Swish activation** in the encoder for smooth gradient flow  
+- **MBConv (Mobile Inverted Bottleneck) blocks** for lightweight and efficient feature extraction  
+- **U-Net style encoder-decoder architecture** with skip connections  
+- **Conv2DTranspose layers** for learnable upsampling and high-quality reconstruction  
+- **Multi-scale fusion** of standard convolutional and bottleneck block outputs  
 
 ### Discriminator
 
 The discriminator network includes:
-- Convolutional layers with spectral normalization
-- LeakyReLU activation
-- No batch normalization for improved training stability
-- PatchGAN architecture for realistic texture generation
+- **LeakyReLU activation** (α = 0.2) for consistent gradient propagation  
+- **Spectral normalization** for training stability across layers  
+- **No batch normalization** to maintain adversarial training dynamics  
+- **PatchGAN architecture** that outputs spatial prediction maps  
+- **Conditional design** using concatenated input-target image pairs  
 
-## Features
+### Features
 
-- **Advanced Normalization**: Uses Instance Normalization and Spectral Normalization
-- **Custom Activation**: Implements Mish activation function
-- **Efficient Training**: Implements gradient clipping and adaptive learning rates
-- **Robust Loss Functions**: Combines adversarial and pixel-wise losses
-- **Data Augmentation**: Includes comprehensive image preprocessing
-- **Progress Monitoring**: Generates sample outputs during training
-- **Checkpointing**: Automatic model saving and restoration
+- **Advanced Normalization**: Spectral normalization stabilizes discriminator updates  
+- **Mixed Activations**: Swish in the generator encoder; LeakyReLU in the discriminator  
+- **Efficient Architectures**: Uses MBConv blocks for efficient representation learning  
+- **Structured Design**: U-Net generator with skip connections for better information flow  
+- **Conditional PatchGAN**: Discriminator evaluates joint input-output image realism  
+- **Multi-Scale Processing**: Fuses mobile bottlenecks with standard convolutions  
+- **Learnable Upsampling**: Transposed convolutions for sharper image reconstruction  
+
+### Loss Functions
+
+- **Charbonnier Loss**: A smooth L1 variant that better preserves image edges  
+- **Haze-Aware Loss**: Adaptive loss weighting based on haze masks to focus on difficult regions  
+- **Perceptual Loss**: Encourages high-level texture realism by comparing deep features  
+- **Adversarial Loss**: Drives the generator to produce photorealistic outputs  
+
+### Optimization
+
+- **Adaptive Loss Weighting**: Weighted combination of reconstruction (λ = 150) and perceptual loss (λ = 0.005) for balanced learning  
 
 ## Requirements
 
@@ -85,49 +97,55 @@ NUM_EPOCHS = 5000
 
 ### Model Components
 
-1. **DehazeGAN**: Main model class implementing the GAN architecture
-   - Custom generator with residual blocks
-   - PatchGAN discriminator
-   - Advanced loss functions
+#### DehazeGAN
 
-2. **DehazeDataProcessor**: Handles data loading and preprocessing
-   - Image resizing and normalization
-   - Dataset creation and batching
-   - Data augmentation
+Main model class implementing the GAN architecture:
+- Custom generator with U-Net structure and MBConv blocks  
+- PatchGAN discriminator with spectral normalization  
+- Multi-component loss functions: Charbonnier, Perceptual, Adversarial  
 
-3. **DehazeTrainer**: Manages the training process
-   - Checkpoint handling
-   - Progress visualization
-   - Sample generation
+#### DehazeDataProcessor
 
-## Training Process
+Handles data loading and preprocessing:
+- Image resizing and normalization  
+- Dataset creation and batching  
+- Data augmentation for generalization  
 
-The model training includes:
-- Adaptive learning rate scheduling
-- Regular checkpoint saving
-- Sample image generation every 10 epochs
-- Progress logging with loss metrics
-- Real-time visualization of dehazing results
+#### DehazeTrainer
 
-## Results Visualization
+Manages the training process:
+- Checkpoint handling and restoration  
+- Progress visualization with sample outputs  
+- Generates dehazed image samples during training  
+  
 
-Sample results showing hazy input, dehazed output, and ground truth:
+### Training Process
 
-![Training Progress](samples/epoch_10.png)
+The training pipeline includes:
+- Haze-aware loss computation using adaptive region weighting  
+- Multi-component loss optimization balancing reconstruction and perceptual quality  
+- Spectral normalization in the discriminator for stability  
+- Regular checkpoint saving for recovery and reproducibility  
+- Sample image generation every 10 epochs  
+- Real-time progress logging with detailed loss metrics  
+- Visualization of input, predicted, and target images during training  
+
+
+### Loss Function Details
+
+The generator optimizes a sophisticated loss combination:
+- **Adversarial Loss**: Standard GAN loss encouraging realism  
+- **Charbonnier Loss**: Robust reconstruction loss (λ = 150)  
+- **Haze-Aware Charbonnier**: Region-weighted loss (70% global + 30% masked)  
+- **Perceptual Loss**: VGG-based feature matching
+
 
 ## Model Performance
 
 The model achieves optimal dehazing results after approximately 2500 epochs, with:
-- Generator Loss: 2.7550
-- Discriminator Loss: 0.893
+- Generator Loss: 8.5700
+- Discriminator Loss: 1.084
 
-
-# Results
-Image after completion 10 epoch:
-![epoch_10](https://github.com/user-attachments/assets/177e34f7-7860-42c8-8370-0453ae0e7757)
-
-Image after completion of 5000 epoch:
-![epoch_5000](https://github.com/user-attachments/assets/85864776-e4b0-4ed6-985c-96e52489adc3)
 
 
 
